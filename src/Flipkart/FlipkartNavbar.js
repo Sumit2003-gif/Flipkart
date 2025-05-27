@@ -44,6 +44,7 @@ const FlipkartNavbar = () => {
   
   
   const [open, setOpen] = useState(false);
+  const [hoveredmenu,setHoveredmenu] = useState(null)
   const [hovered, setHovered] = useState(null);
   const [hovered1,setHovered1] = useState(null)
   const slideRef = useRef(null);
@@ -205,6 +206,7 @@ const FlipkartNavbar = () => {
             <div
               key={index}
               className="flex p-1 pb-2 gap-3 pl-2 place-items-center items-center cursor-pointer hover:bg-gray-100 rounded"
+
               onClick={() => console.log(`Clicked on ${item.htext}`)}
             >
               {item.icon}
@@ -218,7 +220,10 @@ const FlipkartNavbar = () => {
 }
                 {/* Hover Menu */}
                 {hovered === 4 &&  (
-                  <div className="absolute top-7 right-0 mt-2 bg-white border rounded shadow-md z-50 p-2 pt-2 pl-[5px] w-60 pr-3">
+                  <div className="absolute top-7 right-0 mt-2 bg-white border rounded shadow-md z-50 p-2 pt-2 pl-[5px] w-60 pr-3"
+                 onMouseEnter={() => setHovered(4)}
+      onMouseLeave={() => setHovered(null)}
+                 >  
                     {HoveredItems.map((hoverItem, i) => (
                       <div key={i} className="flex items-center gap-2 p-2 py-2 hover:bg-gray-100 rounded">
                         {hoverItem.icon}
