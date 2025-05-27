@@ -10,10 +10,13 @@ const LoginButton = createSlice(
         },
         reducers : {
             login : (state,action) => {
+    //   state.isAuthenticated = true;
                 state.isLogin = true;
                 state.username = action.payload
             },
             logout : (state,action) => {
+                    //   state.isAuthenticated = false;
+
                 state.isLogin = false;
                 state.username = null
             }

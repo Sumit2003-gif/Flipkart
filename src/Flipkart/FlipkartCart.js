@@ -4,6 +4,7 @@ import FlipkartLogo from "./Images/Flipkartloginlogo.png";
 import PlusLogo from "./Images/Flpkartloginplus.png";
 import EmptyCartImage from "./Images/cart image.png";
 import { Search } from "lucide-react";
+import { logout } from "./Flipkart Redux/LoginReducer";
 import { useSelector, useDispatch } from "react-redux";
 import {
   addTOCart,
@@ -13,25 +14,33 @@ import {
 
 const FlipkartCart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
-  const isLoggedIn = useSelector((state) => state.Login.isLoggedIn); // Assuming this exists
+  const isLogin = useSelector((state) => state.Login.isLogin)
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const HandleRemove = (id) => {
+
+  const handleLogout = () => {
+    dispatch(logout());
+    // Small delay to ensure logout state updates before navigation
+    setTimeout(() => {
+      navigate("/");
+    }, 100);
+  };
+
+  const handleRemove = (id) => {
     dispatch(removeFromCart(id));
   };
+
   const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.price * 85 * (item.quantity || 1),
     0
   );
 
   const handlePlaceOrder = () => {
-    // if (!isLoggedIn) {
-    //   // Redirect to login if not logged in
-    //   navigate("/login");
-    // } else {
-    // Otherwise, go to checkout page or order page
-    navigate("/checkout"); // Adjust route as per your app
-    // }
+    if (!isLogin) {
+      navigate("/login");
+    } else {
+      navigate("/checkout");
+    }
   };
 
   return (
@@ -63,15 +72,27 @@ const FlipkartCart = () => {
             </div>
           </div>
         </div>
-        {/* Login Button */}
-        <Link to="/login">
-          <button className="bg-white text-[#2874f0] font-semibold px-6 py-1 rounded-sm hover:bg-gray-100 transition">
-            Login
+
+        {/* Login/Logout Button */}
+        {isLogin ? (
+          <button
+            onClick={handleLogout}
+            className="text-white px-4 py-2 bg-[#2874f0] hover:bg-blue-700 rounded"
+          >
+            Logout
           </button>
-        </Link>
+        ) : (
+          <Link to="/login">
+            <button className="text-white px-4 py-2 bg-[#2874f0] hover:bg-blue-700 rounded">
+              Login
+            </button>
+          </Link>
+        )}
       </header>
 
       {/* Cart Center Section */}
+
+
       <main className="flex-grow flex flex-col md:flex-row bg-white m-6 shadow-sm rounded-sm">
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center text-center py-20 px-4 md:px-0 w-full">
@@ -80,11 +101,22 @@ const FlipkartCart = () => {
             <p className="text-gray-600 mb-6">
               Login to see the items you added previously
             </p>
-            <Link to="/login">
-              <button className="bg-[#fb641b] hover:bg-[#f95c10] transition text-white px-16 py-3 rounded-sm text-lg font-semibold">
-                Login
-              </button>
-            </Link>
+                    {isLogin ? (
+                      <Link to={"/"}>
+          <button
+            onClick={handleLogout}
+            className="bg-[#fb641b] hover:bg-[#f95c10] transition text-white px-16 py-3 rounded-sm text-lg font-semibold"
+          >
+            Shop Now!
+          </button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <button className="bg-[#fb641b] hover:bg-[#f95c10] transition text-white px-16 py-3 rounded-sm text-lg font-semibold">
+              Login
+            </button>
+          </Link>
+        )}
           </div>
         ) : (
           <>
@@ -99,8 +131,13 @@ const FlipkartCart = () => {
                   key={item.id}
                   className="relative flex gap-6 border-b border-gray-300 pb-6"
                 >
-                  {/* <button className="absolute top-2 right-2 text-gray-500 hover:text-red-600"
-                  onClick={HandleRemove(item.id)}>X</button> */}
+                  {/* Uncomment to add remove button */}
+                  {/* <button
+                    className="absolute top-2 right-2 text-gray-500 hover:text-red-600"
+                    onClick={() => handleRemove(item.id)}
+                  >
+                    X
+                  </button> */}
                   <img
                     src={item.image}
                     alt={item.title}

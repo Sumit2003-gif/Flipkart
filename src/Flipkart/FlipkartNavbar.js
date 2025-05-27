@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import {
   User,
   Search,
@@ -32,12 +32,14 @@ import { logout } from './Flipkart Redux/LoginReducer'
 import { useSelector,useDispatch } from 'react-redux'
 
 const FlipkartNavbar = () => {
-
+  const navigate = useNavigate()
   const isLogin = useSelector((state) => state.Login.isLogin)
-  const username = useSelector((state) => state.Login.username)
   const dispatch = useDispatch()
   const handleClickOutside = () => {
     dispatch(logout())
+      // setHovered1(null); // Reset hover menu
+
+    navigate("/")
   }
   
   
@@ -140,6 +142,7 @@ const FlipkartNavbar = () => {
                   <div
                     className={`-ml-3 flex gap-1  items-center cursor-pointer
                     ${index === 0 ? "block md:hidden" : ""}
+                    
                     ${index === 1 ? "group hover:bg-blue-600 hover:text-white p-[8px] rounded-lg" : ""}
                     ${index >= 3 ? "hidden md:flex  " : ""}
                      ${index === 4 ? "border border-slate-200 flex justify-center pl-1 bg-slate-100  " : ""}
@@ -160,6 +163,11 @@ const FlipkartNavbar = () => {
                         setHovered1(null)
                       }
                     }}
+                    onClick={()=>{
+                      if(index===1){
+                        handleClickOutside()
+                      }
+                    }}
                   >
                   <div
                     className={`${
@@ -172,34 +180,44 @@ const FlipkartNavbar = () => {
                   >
                     {item.icon}
                   </div>
-                    <span className={`${index > 1 ? "hidden md:block" : ""}`}>{item.htext}</span>
+                    <span className={`${index > 1 ? "hidden md:block" : ""}`}>
+                        {index === 1 && isLogin ? "Logout" : item.htext}</span>
                     {index === 1 && (
                       <div className="size-2 border-b-[1.5px] border-r-[1.5px] rotate-45 border-black group-hover:border-white group-hover:rotate-[225deg] duration-300 hidden md:block"></div>
                     )}
                   </div>
                 </Link>
-                {
-                  hovered1 === 1 && (
-                    <div className="absolute top-9 left-0 mt-2  bg-white border rounded shadow-md z-50  pt-2 pl-[5px] w-64 pr-3">
-                      <div>
-                        <div className="flex p-2 justify-between mb-2 border-b-[3px] border-b-gray-100 ">
-                          <h1 className="text-[16px] font-semibold">New Customer?</h1>
-                          <button className="text-blue-700 text-[16px] font-semibold">Sign Up</button>
-                        </div>
-                        {
-                         LoginHovered.map((item,index)=>(
-                          <div key={index} className="flex p-1 pb-2 gap-3 pl-2 place-items-center items-center">
-                            {item.icon}
-                            <span>{item.htext}</span>
-                          </div>
-                         )) 
-                        }
-                      </div>
-                    </div>
-                  )
-                }
+               {
+  hovered1 === 1 && (
+    <div className="absolute top-9 left-0 mt-2  bg-white border rounded shadow-md z-50  pt-2 pl-[5px] w-64 pr-3"  
+      onMouseEnter={() => setHovered1(1)}
+      onMouseLeave={() => setHovered1(null)}
+    >
+      <div>
+        <div className="flex p-2 justify-between mb-2 border-b-[3px] border-b-gray-100">
+          <h1 className="text-[16px] font-semibold">New Customer?</h1>
+          <Link to="/signup">
+            <button className="text-blue-700 text-[16px] font-semibold">Sign Up</button>
+          </Link>
+        </div>
+        {
+          LoginHovered.map((item, index) => (
+            <div
+              key={index}
+              className="flex p-1 pb-2 gap-3 pl-2 place-items-center items-center cursor-pointer hover:bg-gray-100 rounded"
+              onClick={() => console.log(`Clicked on ${item.htext}`)}
+            >
+              {item.icon}
+              <span>{item.htext}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  )
+}
                 {/* Hover Menu */}
-                {hovered === 4 && (
+                {hovered === 4 &&  (
                   <div className="absolute top-7 right-0 mt-2 bg-white border rounded shadow-md z-50 p-2 pt-2 pl-[5px] w-60 pr-3">
                     {HoveredItems.map((hoverItem, i) => (
                       <div key={i} className="flex items-center gap-2 p-2 py-2 hover:bg-gray-100 rounded">
