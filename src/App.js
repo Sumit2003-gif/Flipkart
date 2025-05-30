@@ -16,6 +16,7 @@ import FlipkartProducts from './Flipkart/FlipkartProduct'
 import MobileHome from './Flipkart/MobileHome';
 import FlipkartProductNav from './Flipkart/FlipkartProductNav';
 import ProductsDetails from './Flipkart/ProductsDetails'
+import SearchResult from './Flipkart/SearchResult'
 const App = () => {
   return (
     <div>
@@ -31,6 +32,7 @@ const App = () => {
       <Route path="/" element={<MobileHome />} />
       <Route path="/summer-products" element={<FlipkartProductNav />} />
 <Route path="/product/:id" element={<ProductsDetails />} />
+<Route path='/search' element={<SearchResult/>}/>
 
       </Routes>
       </BrowserRouter>

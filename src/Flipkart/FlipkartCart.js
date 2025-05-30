@@ -11,6 +11,7 @@ import {
   removeFromCart,
   decreaseQty,
 } from "./Flipkart Redux/CreateSlice";
+import SearchBar from "./SearchBar";
 
 const FlipkartCart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -61,14 +62,15 @@ const FlipkartCart = () => {
           </Link>
           <div className="hidden md:flex w-[600px] max-w-[65%] mx-8">
             <div className="flex items-center bg-white rounded-sm w-full">
-              <input
+              {/* <input
                 type="text"
                 placeholder="Search for products, brands and more"
                 className="w-full px-4 py-2 outline-none text-sm rounded-l-sm"
               />
               <button className="p-2">
                 <Search size={20} color="#2874f0" />
-              </button>
+              </button> */}
+              <SearchBar/>
             </div>
           </div>
         </div>

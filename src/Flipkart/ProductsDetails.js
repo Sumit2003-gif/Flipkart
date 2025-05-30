@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import AllNav from './AllNav';
 import Flipkartfooter from './Flipkartfooter';
 import { addTOCart } from './Flipkart Redux/CreateSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
@@ -13,6 +13,8 @@ const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState("");
     const [error, setError] = useState(false);
         const dispatch = useDispatch(); // 🟡 Redux dispatcher
+        const cartItems = useSelector((state)=>state.cart.cartItems)
+        const isIncart = product && cartItems.some((item)=>item.id === product.id)
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -32,11 +34,10 @@ const navigate = useNavigate();
     if (!product) return <div className="p-6 text-center">Loading...</div>;
 
    const handleAddToCart = () => {
-//   const token = localStorage.getItem("token");
-//   if (!token) {
-//     toast.error("Please login first to continue.");
-//     return navigate("/login");
-//   }
+
+if (isIncart) {
+    navigate("/cart")
+}else{
 
   dispatch(addTOCart(product));
   toast.success("Product added to cart",{
@@ -46,7 +47,9 @@ const navigate = useNavigate();
   pauseOnHover: true,
   draggable: true,
   });
-}; 
+  navigate("/cart")
+}
+   }
    const handleBuyNow = () => {
 //   const token = localStorage.getItem("token");
 
@@ -125,7 +128,7 @@ const navigate = useNavigate();
                             className="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-3 rounded-lg text-sm shadow transition duration-300"
                             onClick={handleAddToCart}
                         >
-                            Add to Cart
+                            {isIncart ? "Go To cart":"Add to Cart"}
                         </button>
                         <button
                             className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg text-sm shadow transition duration-300"

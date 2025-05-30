@@ -9,9 +9,12 @@ import { ShoppingCartIcon } from '@heroicons/react/24/solid'
 import Flipkartloginlink from './Flipkartloginlink'
 import { logout } from './Flipkart Redux/LoginReducer'
 import { useSelector,useDispatch } from 'react-redux'
+import SearchBar from './SearchBar'
 
 const AllNav = () => {
        const isLogin = useSelector((state) => state.Login.isLogin)
+       const cartItems = useSelector((state)=> state.cart.cartItems)
+       const totalQuantity = cartItems.reduce((acc,item)=>acc+item.quantity,null)
 const username = useSelector((state) => state.Login.username)
 const dispatch = useDispatch()
 const handleClickOutside = () => {
@@ -34,8 +37,9 @@ const handleClickOutside = () => {
         </div>
         </Link>
         <div className='hidden md:flex bg-white w-3/5 items-center justify-around  rounded-md px-4 py-1'>
-          <input type='search' placeholder='Search for products,brands and more' className='outline-none text-black w-full '></input>
-          <Search strokeWidth={2.5} color='blue'/>
+          {/* <input type='search' placeholder='Search for products,brands and more' className='outline-none text-black w-full '></input>
+          <Search strokeWidth={2.5} color='blue'/> */}
+          <SearchBar/>
         </div>
         
         {
@@ -61,8 +65,15 @@ const handleClickOutside = () => {
 
           Become.map((item,index)=>(
             <Link key={index} to={item.Path}>
-            <div key={index} className={`flex ${[0,1].includes(index) ? "hidden md:block" : ""} `}>
-              {item.icon}<span>{item.text}</span>
+            <div key={index} className={`flex gap-2 ${[0,1].includes(index) ? "hidden md:block" : ""} `}>
+              <div className='relative'>
+              {item.icon}{
+                index === 2 && totalQuantity && (
+                  <span className='absolute -top-1 -right-[3px] bg-red-600 text-white text-xs px-[6px] py-[1px] rounded-full'>{totalQuantity}</span>
+                )
+              }
+              </div>
+              <span className=''>{item.text}</span>
             </div>
            </Link> 
           ))
