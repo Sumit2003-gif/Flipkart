@@ -62,14 +62,7 @@ const FlipkartCart = () => {
           </Link>
           <div className="hidden md:flex w-[600px] max-w-[65%] mx-8">
             <div className="flex items-center bg-white rounded-sm w-full">
-              {/* <input
-                type="text"
-                placeholder="Search for products, brands and more"
-                className="w-full px-4 py-2 outline-none text-sm rounded-l-sm"
-              />
-              <button className="p-2">
-                <Search size={20} color="#2874f0" />
-              </button> */}
+
               <SearchBar/>
             </div>
           </div>
@@ -106,7 +99,7 @@ const FlipkartCart = () => {
                     {isLogin ? (
                       <Link to={"/"}>
           <button
-            onClick={handleLogout}
+            // onClick={handleLogout}
             className="bg-[#fb641b] hover:bg-[#f95c10] transition text-white px-16 py-3 rounded-sm text-lg font-semibold"
           >
             Shop Now!
@@ -122,84 +115,92 @@ const FlipkartCart = () => {
           </div>
         ) : (
           <>
-            {/* Left - Cart Items */}
-            <section className="flex flex-col flex-grow p-6 space-y-6 md:max-w-3xl">
-              <h2 className="text-2xl font-semibold border-b border-gray-300 pb-4">
-                My Cart ({cartItems.length} items)
-              </h2>
+  {/* Cart Items Section */}
+  <section className="flex flex-col flex-grow p-4 sm:p-6 space-y-6 md:max-w-3xl">
+    <h2 className="text-2xl font-bold border-b pb-4">My Cart ({cartItems.length} items)</h2>
 
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="relative flex gap-6 border-b border-gray-300 pb-6"
-                >
-                  {/* Uncomment to add remove button */}
-                  {/* <button
-                    className="absolute top-2 right-2 text-gray-500 hover:text-red-600"
-                    onClick={() => handleRemove(item.id)}
-                  >
-                    X
-                  </button> */}
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-28 h-28 object-contain rounded"
-                  />
-                  <div className="flex flex-col justify-between flex-grow">
-                    <h3 className="font-semibold text-lg">{item.title}</h3>
-                    <p className="text-gray-600 text-sm">
-                      Category: {item.category}
-                    </p>
-                    <p className="text-[#388e3c] font-semibold mt-1">
-                      ₹{Math.round(item.price * 85)}
-                    </p>
-                    <p className="text-gray-700 flex items-center gap-3">
-                      Quantity:
-                      <button
-                        onClick={() => dispatch(decreaseQty(item.id))}
-                        className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                      >
-                        −
-                      </button>
-                      <span className="px-2">{item.quantity}</span>
-                      <button
-                        onClick={() => dispatch(addTOCart(item))}
-                        className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
-                      >
-                        +
-                      </button>
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </section>
+    {cartItems.map((item) => (
+      <div
+        key={item.id}
+        className="relative flex gap-4 sm:gap-6 border-b pb-6 bg-white shadow-sm p-4 rounded-lg"
+      >
+        {/* Remove Button */}
+        <button
+          className="absolute top-2 right-2 text-gray-400 hover:text-red-600 text-xl"
+          onClick={() => handleRemove(item.id)}
+        >
+          ×
+        </button>
 
-            {/* Right - Price Details */}
-            <aside className="w-full md:w-96 bg-[#f9fafb] p-6 border border-gray-300 rounded-sm h-fit self-start">
-              <h3 className="text-xl font-semibold mb-4">Price Details</h3>
-              <div className="flex justify-between mb-2 text-gray-700">
-                <span>Price ({cartItems.length} items)</span>
-                <span>₹{totalPrice.toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between mb-2 text-gray-700">
-                <span>Delivery Charges</span>
-                <span className="text-green-600 font-semibold">Free</span>
-              </div>
-              <hr className="my-4" />
-              <div className="flex justify-between text-lg font-semibold">
-                <span>Total Amount</span>
-                <span>₹{totalPrice.toLocaleString()}</span>
-              </div>
+        <img
+          src={item.image}
+          alt={item.title}
+          className="w-24 h-24 sm:w-28 sm:h-28 object-contain rounded"
+        />
 
+        <div className="flex flex-col justify-between flex-grow">
+          <div>
+            <h3 className="text-lg font-semibold">{item.title}</h3>
+            <p className="text-sm text-gray-500">Category: {item.category}</p>
+          </div>
+
+          <div className="flex items-center justify-between mt-3">
+            <p className="text-green-600 font-semibold text-base">
+              ₹{Math.round(item.price * 85)}
+            </p>
+
+            <div className="flex items-center gap-2">
               <button
-                type="button"
-                onClick={handlePlaceOrder}
-                className="w-full bg-[#fb641b] hover:bg-[#f95c10] text-white font-semibold py-3 rounded-sm mt-6 transition"
+                onClick={() => dispatch(decreaseQty(item.id))}
+                className="w-8 h-8 text-lg bg-gray-200 hover:bg-gray-300 rounded"
               >
-                Place Order
+                −
               </button>
-            </aside>
-          </>
+              <span className="text-base">{item.quantity}</span>
+              <button
+                onClick={() => dispatch(addTOCart(item))}
+                className="w-8 h-8 text-lg bg-gray-200 hover:bg-gray-300 rounded"
+              >
+                +
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  {/* Price Details Section */}
+  <aside className="w-full md:w-96 bg-white p-6 border border-gray-200 rounded-lg shadow-md self-start">
+    <h3 className="text-xl font-bold mb-4">Price Details</h3>
+
+    <div className="flex justify-between mb-3 text-gray-700">
+      <span>Price ({cartItems.length} items)</span>
+      <span>₹{totalPrice.toLocaleString()}</span>
+    </div>
+
+    <div className="flex justify-between mb-3 text-gray-700">
+      <span>Delivery Charges</span>
+      <span className="text-green-600 font-semibold">Free</span>
+    </div>
+
+    <hr className="my-4" />
+
+    <div className="flex justify-between text-lg font-bold">
+      <span>Total Amount</span>
+      <span>₹{totalPrice.toLocaleString()}</span>
+    </div>
+
+    <button
+      type="button"
+      onClick={handlePlaceOrder}
+      className="w-full bg-[#fb641b] hover:bg-[#f95c10] text-white text-base font-semibold py-3 rounded-md mt-6 transition duration-200"
+    >
+      Place Order
+    </button>
+  </aside>
+</>
+
         )}
       </main>
 
