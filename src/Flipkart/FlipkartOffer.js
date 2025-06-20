@@ -9,8 +9,10 @@ import Img6 from "./Images/FlipkartOffer6.webp"
 import Img7 from "./Images/FlipkartOffer7.webp"
 import Img8 from "./Images/FlipkartOffer8.webp"
 import Img9 from "./Images/FlipkartOffer9.webp"
+import { useNavigate } from 'react-router-dom'
 
 const FlipkartOffer = () => {
+  const navigate = useNavigate()
     const Offer = [
         {img:Img,htext:"Top Offers"},
         {img:Img1,htext:"Mobiles & Tablets"},
@@ -28,7 +30,9 @@ const FlipkartOffer = () => {
   return (<>
 <div className='flex justify-evenly w-full overflow-auto gap-1 md:gap-3 md:p-4'>
   {Offer.map((item, index) => (
-    <div key={index} className='w-24  p-2 flex flex-col items-center'>
+    <div key={index} className='w-24  p-2 flex flex-col items-center hover:scale-105 transition-transform duration-300 ease-in-out'
+    onClick={()=>navigate("/summer-products")}
+    >
       <img src={item.img} className='w-16 h-16 object-contain ' alt={item.htext} />
       <h1 className='text-sm text-center font-light md:font-medium mt-0.5 '>{item.htext}</h1>
     </div> 

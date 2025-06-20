@@ -16,6 +16,7 @@ import SearchBar from "./SearchBar";
 const FlipkartCart = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const isLogin = useSelector((state) => state.Login.isLogin)
+  const username = useSelector
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,7 +41,7 @@ const FlipkartCart = () => {
     if (!isLogin) {
       navigate("/login");
     } else {
-      navigate("/checkout");
+      navigate("/address");
     }
   };
 

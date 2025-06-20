@@ -33,7 +33,8 @@ const MobileHome = ({className = ""}) => {
 
     return (
         <div className={`border border-black w-full rounded-xl p-6 h-full ${className} `}>
-                <div className='grid '>
+                <div className='grid hover:scale-105 transition-transform duration-300 ease-in-out' 
+                onClick={()=>Navigate("/summer-products")}>
                     <div className='flex border justify-between items-center p-2 rounded-xl'>
                         <h1 className='font-bold'>Summer Collection</h1>
                         <button className='bg-blue-600 w-10 h-10 p-1 flex justify-center items-center rounded-full'

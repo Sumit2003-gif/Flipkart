@@ -34,10 +34,11 @@ import LoginHover2 from "./Images/Hovered2.svg";
 import LoginHover3 from "./Images/Hovered3.svg";
 import LoginHover4 from "./Images/Hovered4.svg";
 import LoginHover5 from "./Images/Hovered5.svg";
-import { logout } from "./Flipkart Redux/LoginReducer";
+import { login,logout } from "./Flipkart Redux/LoginReducer";
 import { useSelector, useDispatch } from "react-redux";
 
 const FlipkartNavbar = () => {
+  const username = useSelector((state)=> state.Login.username)
   const cartItems = useSelector((state) => state.cart.cartItems || []);
 const totalQuantity = cartItems.reduce((acc, item) => acc + item.quantity, null);
   const navigate = useNavigate();
